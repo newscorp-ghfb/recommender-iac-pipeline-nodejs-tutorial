@@ -1,27 +1,11 @@
 /**
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
  * Recommender.js (module) handles all tasks related to recommendations such
  * as fetching recommendations, updating recommendation state and parsing
  * recommendations.
  */
 
-const sampleRecommendationVM = require('./stub/vm.json')
-const sampleRecommendationIAM = require('./stub/iam.json')
+//const sampleRecommendationVM = require('./stub/vm.json')
+//const sampleRecommendationIAM = require('./stub/iam.json')
 
 const {google} = require('googleapis')
 const request = require('request-promise')
@@ -41,9 +25,9 @@ const request = require('request-promise')
  *         [{instanceID: string, size: string, recommendationID: string,
  *           recommendationETag: string}]
  */
-const listVMResizeRecommendations = async (projectIDs, isStub) => {
+const listVMResizeRecommendations = async (projectIDs) => {
   const recommendations =
-      await fetchRecommendations('VM', projectIDs, isStub)
+      await fetchRecommendations('VM', projectIDs)
 
   const vmsToSize = await
     filterVMSizeRecommendations(recommendations)
@@ -68,9 +52,9 @@ const listVMResizeRecommendations = async (projectIDs, isStub) => {
  *         [{project: string, member: string, role: string,
  *           add: string, recommendationID: string, recommendationETag: string}]
  */
-const listIAMRecommendations = async (projectIDs, isStub) => {
+const listIAMRecommendations = async (projectIDs) => {
   const recommendations =
-      await fetchRecommendations('IAM', projectIDs, isStub)
+      await fetchRecommendations('IAM', projectIDs)
 
   const iamRecommendations = await
     filterIAMRecommendations(recommendations)
@@ -87,13 +71,13 @@ const listIAMRecommendations = async (projectIDs, isStub) => {
  * @param type is the recommendation type that needs to be processed using a
  *             stub - this could be 'VM' or 'IAM'
  */
-const fetchRecommendationsStub = async (type) => {
-  if (type == 'VM') {
-    return sampleRecommendationVM
-  } else {
-    return sampleRecommendationIAM
-  }
-}
+// const fetchRecommendationsStub = async (type) => {
+//   if (type == 'VM') {
+//     return sampleRecommendationVM
+//   } else {
+//     return sampleRecommendationIAM
+//   }
+// }
 
 /**
  * Invoked the Recommender API
@@ -109,11 +93,7 @@ const fetchRecommendationsStub = async (type) => {
  *        [{ name: string, description: string, stateInfo: object, etag: string
  *            lastRefreshTime: datetime, content: object }]
  */
-const fetchRecommendations = async (type, projects, stub) => {
-
-  if (stub) {
-    return fetchRecommendationsStub(type)
-  }
+const fetchRecommendations = async (type, projects) => {
 
   const typeURLPath = type == 'IAM' ?
     'google.iam.policy.Recommender' :
