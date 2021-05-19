@@ -1,20 +1,4 @@
 /**
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-/**
  * Routes.js orchestrates the calling of the various helper function when an
  * http service is invoked.
  */
@@ -42,7 +26,7 @@ const applyRecommendations = async (req, res) => {
     const repoName = req.body.repo
     const projectIDs = req.body.projects
     const type = req.params.type.toUpperCase()
-    const isStub = req.body.stub ? true : false
+    //const isStub = req.body.stub ? true : false
 
     let listRecommendationsFn
     let applyRecommendationsFn
@@ -61,7 +45,7 @@ const applyRecommendations = async (req, res) => {
     }
 
     // Fetch Recommendation from Recommender
-    const recommendations = await listRecommendationsFn(projectIDs, isStub)
+    const recommendations = await listRecommendationsFn(projectIDs)
 
     if (recommendations.length == 0) {
       res.end('Nothing to apply')
@@ -90,13 +74,13 @@ const applyRecommendations = async (req, res) => {
 
       // Write commit to database
       await db.createCommit(repoName, commit.commit,
-          recommendationsToClaim, isStub)
+          recommendationsToClaim)
 
       // Claim recommendations
-      if (!isStub) {
+      //if (!isStub) {
         await recommender.setRecommendationStatus(
           recommendationsToClaim, 'markClaimed')
-      }
+      //}
     }
 
     res.sendStatus(201).end()
