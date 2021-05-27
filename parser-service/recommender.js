@@ -31,7 +31,8 @@ const listVMResizeRecommendations = async (projectIDs) => {
 
   const vmsToSize = await
     filterVMSizeRecommendations(recommendations)
-
+  
+  console.log(vmsToSize)
   console.log('Completed listVMResizeRecommendations',
     JSON.stringify(vmsToSize))
 
@@ -59,6 +60,7 @@ const listIAMRecommendations = async (projectIDs) => {
   const iamRecommendations = await
     filterIAMRecommendations(recommendations)
 
+  console.log()
   console.log('Completed listIAMRecommendations',
     JSON.stringify(iamRecommendations))
 
