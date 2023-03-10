@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --watch",
-    "start": "nodemon index.js"
+    "start": "nodemon index.js",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "author": "",
   "license": "ISC",
@@ -21,9 +23,11 @@
     "nodemon": "^1.19.3",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
-    "simple-git": "^1.113.0"
+    "simple-git": "^1.113.0",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "mocha": "^6.2.0"
-  }
+  },
+  "snyk": true
 }
